@@ -1,4 +1,4 @@
-# MangoHud
+# MinigoHUD
 
 A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more.
 
@@ -6,7 +6,7 @@ A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and m
 
 ---
 
-- [MangoHud](#mangohud)
+- [MinigoHUD](#MinigoHUD)
   - [Installation - Build From Source](#installation---build-from-source)
     - [Dependencies](#dependencies)
     - [Building with build script](#building-with-build-script)
@@ -21,7 +21,7 @@ A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and m
   - [Normal usage](#normal-usage)
   - [OpenGL](#opengl)
   - [Hud configuration](#hud-configuration)
-    - [Environment Variables: **`MANGOHUD_CONFIG`**, **`MANGOHUD_CONFIGFILE`**, and **`MANGOHUD_PRESETSFILE`**](#environment-variables)
+    - [Environment Variables: **`MinigoHUD_CONFIG`**, **`MinigoHUD_CONFIGFILE`**, and **`MinigoHUD_PRESETSFILE`**](#environment-variables)
   - [Vsync](#vsync)
     - [OpenGL Vsync](#opengl-vsync)
     - [Vulkan Vsync](#vulkan-vsync)
@@ -36,11 +36,11 @@ A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and m
 
 ---
 
-If you wish to compile MangoHud to keep up to date with any changes - first clone this repository and cd into it:
+If you wish to compile MinigoHUD to keep up to date with any changes - first clone this repository and cd into it:
 
 ```
-git clone --recurse-submodules https://github.com/flightlessmango/MangoHud.git
-cd MangoHud
+git clone --recurse-submodules https://github.com/bruno-jose-araujo/MinigoHUD
+cd MinigoHUD
 ```
 
 Using `meson` to install "manually":
@@ -50,8 +50,8 @@ meson build
 ninja -C build install
 ```
 
-By default, meson should install MangoHud to `/usr/local`. Specify install prefix with `--prefix=/usr` if desired.
-Add `-Dappend_libdir_mangohud=false` option to meson to not append `mangohud` to libdir if desired (e.g. /usr/local/lib/mangohud).
+By default, meson should install MinigoHUD to `/usr/local`. Specify install prefix with `--prefix=/usr` if desired.
+Add `-Dappend_libdir_MinigoHUD=false` option to meson to not append `MinigoHUD` to libdir if desired (e.g. /usr/local/lib/MinigoHUD).
 
 To install 32-bit build on 64-bit distro, specify proper `libdir`: `lib32` for Arch, `lib/i386-linux-gnu` on Debian-based distros. RPM-based distros usually install 32-bit libraries to `/usr/lib` and 64-bit to `/usr/lib64`.
 You may have to change `PKG_CONFIG_PATH` to point to correct folders for your distro.
@@ -75,7 +75,6 @@ Install necessary development packages.
 - glslang
 - libGL/libEGL (libglvnd, mesa-common-dev, mesa-libGL-devel etc)
 - X11 (libx11-dev)
-- XNVCtrl (libxnvctrl-dev), optional, use `-Dwith_xnvctrl=disabled` option with `meson` to disable
 - D-Bus (libdbus-1-dev), optional, use `-Dwith_dbus=disabled` option with `meson` to disable
 - wayland-client
 - xcbcommon
@@ -90,13 +89,11 @@ If distro's packaged `meson` is too old and gives build errors, install newer ve
 
 | Option        | Default | Description
 | --------      | ------- | -
-| with_nvml     | enabled    |Required for NVIDIA GPU metrics on wayland
-| with_xnvctrl  | enabled    |Required for NVIDIA GPU metrics on older GPUs
 | with_x11      | enabled    |Required for keybinds on x11
 | with_wayland  | enabled    |Required for keybinds on wayland
 | with_dbus     | enabled    |Required for using the media features
 | mangoapp      | false      |Includes mangoapp
-| mangohudctl   | false      |Include mangohudctl
+| MinigoHUDctl   | false      |Include MinigoHUDctl
 | tests         | auto       |Includes tests
 | mangoplot     | true       |Includes mangoplot
 
@@ -114,18 +111,18 @@ To just build it, execute:
 You can also pass arguments to meson:
 
 ```
-./build.sh build -Dwith_xnvctrl=disabled
+./build.sh build -{argument}
 ```
 
 Resulting files will be install to `./build/release` folder.
 
-If you have compiled MangoHud from source, to install it, execute:
+If you have compiled MinigoHUD from source, to install it, execute:
 
 ```
 ./build.sh install
 ```
 
-You can then subsequently uninstall MangoHud via the following command
+You can then subsequently uninstall MinigoHUD via the following command
 
 ```
 ./build.sh uninstall
@@ -143,7 +140,7 @@ or combine the commands, although `package` should also call `build` if it doesn
 ./build.sh build package release
 ```
 
-If you have built MangoHud before and suddenly it fails, you can try cleaning the `build` folder, execute:
+If you have built MinigoHUD before and suddenly it fails, you can try cleaning the `build` folder, execute:
 
 ```
 ./build.sh clean
@@ -159,15 +156,15 @@ __NOTE: If you are running an Ubuntu-based, Arch-based, Fedora-based, or openSUS
 
 ### GitHub releases
 
-If you do not wish to compile anything, simply download the file under [Releases](https://github.com/flightlessmango/MangoHud/releases), extract it, and from within the extracted folder in terminal, execute:
+If you do not wish to compile anything, simply download the file under [Releases](https://github.com/flightlessmango/MinigoHUD/releases), extract it, and from within the extracted folder in terminal, execute:
 
 ```
-./mangohud-setup.sh install
+./MinigoHUD-setup.sh install
 ```
 
 ### Arch-based distributions
 
-If you are using an Arch-based distribution, install [`mangohud`](https://archlinux.org/packages/extra/x86_64/mangohud/) and [`lib32-mangohud`](https://archlinux.org/packages/multilib/x86_64/lib32-mangohud/) from the `extra`/`multilib` repository. [`mangohud-git`](https://aur.archlinux.org/packages/mangohud-git/) and [`lib32-mangohud-git`](https://aur.archlinux.org/packages/lib32-mangohud-git/) are available on the AUR to be installed via your favourite AUR helper. These can help fix issues with the hud not activating when using stable releases from pacman!
+If you are using an Arch-based distribution, install [`MinigoHUD`](https://archlinux.org/packages/extra/x86_64/MinigoHUD/) and [`lib32-MinigoHUD`](https://archlinux.org/packages/multilib/x86_64/lib32-MinigoHUD/) from the `extra`/`multilib` repository. [`MinigoHUD-git`](https://aur.archlinux.org/packages/MinigoHUD-git/) and [`lib32-MinigoHUD-git`](https://aur.archlinux.org/packages/lib32-MinigoHUD-git/) are available on the AUR to be installed via your favourite AUR helper. These can help fix issues with the hud not activating when using stable releases from pacman!
 
 If you are building it by yourself, you need to enable multilib repository, by editing pacman config:
 
@@ -190,45 +187,45 @@ sudo pacman -Syy
 
 ### Debian, Ubuntu
 
-If you are using Debian 11 (Bullseye) or later, Ubuntu 21.10 (Impish) or later, or distro derived from them, to install the [MangoHud](https://tracker.debian.org/pkg/mangohud) package, execute:
+If you are using Debian 11 (Bullseye) or later, Ubuntu 21.10 (Impish) or later, or distro derived from them, to install the [MinigoHUD](https://tracker.debian.org/pkg/MinigoHUD) package, execute:
 
 ```
-sudo apt install mangohud
+sudo apt install MinigoHUD
 ```
 
-Optionally, if you also need MangoHud for 32-bit applications,
+Optionally, if you also need MinigoHUD for 32-bit applications,
 on Debian you can execute:
 
 ```
-sudo apt install mangohud:i386
+sudo apt install MinigoHUD:i386
 ```
 
 The 32-bit package is not available on Ubuntu.
 
 ### Fedora
 
-If you are using Fedora, to install the [MangoHud](https://src.fedoraproject.org/rpms/mangohud) package, execute:
+If you are using Fedora, to install the [MinigoHUD](https://src.fedoraproject.org/rpms/MinigoHUD) package, execute:
 
 ```
-sudo dnf install mangohud
+sudo dnf install MinigoHUD
 ```
 
 ### Solus
 
-If you are using Solus, to install [MangoHud](https://dev.getsol.us/source/mangohud/) simply execute:
+If you are using Solus, to install [MinigoHUD](https://dev.getsol.us/source/MinigoHUD/) simply execute:
 
 ```
-sudo eopkg it mangohud
+sudo eopkg it MinigoHUD
 ```
 
 ### openSUSE
 
-If you run openSUSE Leap or Tumbleweed you can get Mangohud from the official repositories.
-There are two packages, [mangohud](https://software.opensuse.org/package/mangohud) for 64bit and [mangohud-32bit](https://software.opensuse.org/package/mangohud-32bit) for 32bit application support.
-To have Mangohud working for both 32bit and 64bit applications you need to install both packages even on a 64bit operating system.
+If you run openSUSE Leap or Tumbleweed you can get MinigoHUD from the official repositories.
+There are two packages, [MinigoHUD](https://software.opensuse.org/package/MinigoHUD) for 64bit and [MinigoHUD-32bit](https://software.opensuse.org/package/MinigoHUD-32bit) for 32bit application support.
+To have MinigoHUD working for both 32bit and 64bit applications you need to install both packages even on a 64bit operating system.
 
 ```
-sudo zypper in mangohud mangohud-32bit
+sudo zypper in MinigoHUD MinigoHUD-32bit
 ```
 
 Leap doesn't seem to have the 32bit package.
@@ -237,14 +234,14 @@ Leap 15.2
 
 ```
 sudo zypper addrepo -f https://download.opensuse.org/repositories/games:tools/openSUSE_Leap_15.2/games:tools.repo
-sudo zypper install mangohud
+sudo zypper install MinigoHUD
 ```
 
 Leap 15.3
 
 ```
 sudo zypper addrepo -f https://download.opensuse.org/repositories/games:tools/openSUSE_Leap_15.3/games:tools.repo
-sudo zypper install mangohud
+sudo zypper install MinigoHUD
 ```
 
 ### Flatpak
@@ -254,64 +251,64 @@ If you are using Flatpaks, you will have to add the [Flathub repository](https:/
 For flatpak:
 
 ```
-flatpak install org.freedesktop.Platform.VulkanLayer.MangoHud
+flatpak install org.freedesktop.Platform.VulkanLayer.MinigoHUD
 ```
 
-To enable MangoHud for all Steam games:
+To enable MinigoHUD for all Steam games:
 
 ```
-flatpak override --user --env=MANGOHUD=1 com.valvesoftware.Steam
+flatpak override --user --env=MinigoHUD=1 com.valvesoftware.Steam
 ```
 
 ## Normal usage
 
 ---
 
-To enable the MangoHud overlay layer for Vulkan and OpenGL, run :
+To enable the MinigoHUD overlay layer for Vulkan and OpenGL, run :
 
-`mangohud /path/to/app`
+`MinigoHUD /path/to/app`
 
 For Lutris games, go to the System options in Lutris (make sure that advanced options are enabled) and add this to the `Command prefix` setting:
 
-`mangohud`
+`MinigoHUD`
 
 For Steam games, you can add this as a launch option:
 
-`mangohud %command%`
+`MinigoHUD %command%`
 
-Or alternatively, add `MANGOHUD=1` to your shell profile (Vulkan only).
+Or alternatively, add `MinigoHUD=1` to your shell profile (Vulkan only).
 
 ## OpenGL
 
-OpenGL games may also need `dlsym` hooking, which is now enabled by default. Set the `MANGOHUD_DLSYM` env to `0` to disable like `MANGOHUD_DLSYM=0 %command%` for Steam.
+OpenGL games may also need `dlsym` hooking, which is now enabled by default. Set the `MinigoHUD_DLSYM` env to `0` to disable like `MinigoHUD_DLSYM=0 %command%` for Steam.
 
-Some Linux native OpenGL games overrides LD_PRELOAD and stops MangoHud from working. You can sometimes fix this by editing LD_PRELOAD in the start script
-`LD_PRELOAD=/path/to/mangohud/lib/`
+Some Linux native OpenGL games overrides LD_PRELOAD and stops MinigoHUD from working. You can sometimes fix this by editing LD_PRELOAD in the start script
+`LD_PRELOAD=/path/to/MinigoHUD/lib/`
 
 ## gamescope
 
-To enable mangohud with gamescope you need to install mangoapp.
+To enable MinigoHUD with gamescope you need to install mangoapp.
 `gamescope --mangoapp %command%`
 
-Using normal mangohud with gamescope is not supported.
+Using normal MinigoHUD with gamescope is not supported.
 
 ## Hud configuration
 
-MangoHud comes with a config file which can be used to set configuration options globally or per application. Usually it is installed as `/usr/share/doc/mangohud/MangoHud.conf.example` or [get a copy from here](https://raw.githubusercontent.com/flightlessmango/MangoHud/master/data/MangoHud.conf).
+MinigoHUD comes with a config file which can be used to set configuration options globally or per application. Usually it is installed as `/usr/share/doc/MinigoHUD/MinigoHUD.conf.example` or [get a copy from here](https://raw.githubusercontent.com/flightlessmango/MinigoHUD/master/data/MinigoHUD.conf).
 
 The priorities of different config files are:
 
-1. `/path/to/application/dir/MangoHud.conf`
-2. Per-application configuration in ~/.config/MangoHud:
-    1. `~/.config/MangoHud/<application_name>.conf` for native applications, where `<application_name>` is the case sensitive name of the executable
-    2. `~/.config/MangoHud/wine-<application_name>.conf` for wine/proton apps, where `<application_name>` is the case sensitive name of the executable without the `.exe` ending
-3. `~/.config/MangoHud/MangoHud.conf`
+1. `/path/to/application/dir/MinigoHUD.conf`
+2. Per-application configuration in ~/.config/MinigoHUD:
+    1. `~/.config/MinigoHUD/<application_name>.conf` for native applications, where `<application_name>` is the case sensitive name of the executable
+    2. `~/.config/MinigoHUD/wine-<application_name>.conf` for wine/proton apps, where `<application_name>` is the case sensitive name of the executable without the `.exe` ending
+3. `~/.config/MinigoHUD/MinigoHUD.conf`
 
 Example: For Overwatch, this would be `wine-Overwatch.conf` (even though the executable you run from Lutris is `Battle.net.exe`, the actual game executable name is `Overwatch.exe`).
 
-If you start the game from the terminal with MangoHud enabled (for example by starting Lutris from the terminal), MangoHud will print the config file names it is looking for.
+If you start the game from the terminal with MinigoHUD enabled (for example by starting Lutris from the terminal), MinigoHUD will print the config file names it is looking for.
 
-You can find an example config in /usr/share/doc/mangohud
+You can find an example config in /usr/share/doc/MinigoHUD
 
 [GOverlay](https://github.com/benjamimgois/goverlay) is a GUI application that can be used to manage the config
 
@@ -319,13 +316,13 @@ You can find an example config in /usr/share/doc/mangohud
 
 ### Environment Variables
 
-You can also customize the hud by using the `MANGOHUD_CONFIG` environment variable while separating different options with a comma. This takes priority over any config file.
+You can also customize the hud by using the `MinigoHUD_CONFIG` environment variable while separating different options with a comma. This takes priority over any config file.
 
-You can also specify configuration file with `MANGOHUD_CONFIGFILE=/path/to/config` for applications whose names are hard to guess (java, python etc).
+You can also specify configuration file with `MinigoHUD_CONFIGFILE=/path/to/config` for applications whose names are hard to guess (java, python etc).
 
-You can also specify presets file with `MANGOHUD_PRESETSFILE=/path/to/config`. This is especially useful when running mangohud in a sandbox such as flatpak.
+You can also specify presets file with `MinigoHUD_PRESETSFILE=/path/to/config`. This is especially useful when running MinigoHUD in a sandbox such as flatpak.
 
-You can also specify custom hud libraries for OpenGL using `MANGOHUD_OPENGL_LIBS=/path/to/libMangoHud_opengl.so`. This is useful for testing MangoHud without modifying the installation on your system.
+You can also specify custom hud libraries for OpenGL using `MinigoHUD_OPENGL_LIBS=/path/to/libMinigoHUD_opengl.so`. This is useful for testing MinigoHUD without modifying the installation on your system.
 
 A partial list of parameters are below. See the config file for a complete list.
 Parameters that are enabled by default have to be explicitly disabled. These (currently) are `fps`, `frame_timing`, `cpu_stats` (cpu load), `gpu_stats` (gpu load), and each can be disabled by setting the corresponding variable to 0 (e.g., fps=0).
@@ -335,7 +332,7 @@ Parameters that are enabled by default have to be explicitly disabled. These (cu
 | `af`                               | Anisotropic filtering level. Improves sharpness of textures viewed at an angle `0`-`16` |
 | `alpha`                            | Set the opacity of all text and frametime graph `0.0`-`1.0`                           |
 | `arch`                             | Show if the application is 32- or 64-bit                                              |
-| `autostart_log=`                   | Starts the log after X seconds from mangohud init                                     |
+| `autostart_log=`                   | Starts the log after X seconds from MinigoHUD init                                     |
 | `background_alpha`                 | Set the opacity of the background `0.0`-`1.0`                                         |
 | `battery_color`                    | Change the battery text color                                                         |
 | `battery_icon`                     | Display battery icon instead of percent                                               |
@@ -346,7 +343,7 @@ Parameters that are enabled by default have to be explicitly disabled. These (cu
 | `bicubic`                          | Force bicubic filtering                                                               |
 | `blacklist`                        | Add a program to the blacklist. e.g `blacklist=vkcube,WatchDogs2.exe`                 |
 | `cellpadding_y`                    | Set the vertical cellpadding, default is `-0.085` |
-| `control=`                         | Sets up a unix socket with a specific name that can be connected to with mangohud-control.<br>I.e. `control=mangohud` or `control=mangohud-%p` (`%p` will be replaced by process id)    |
+| `control=`                         | Sets up a unix socket with a specific name that can be connected to with MinigoHUD-control.<br>I.e. `control=MinigoHUD` or `control=MinigoHUD-%p` (`%p` will be replaced by process id)    |
 | `core_load_change`                 | Change the colors of cpu core loads, uses the same data from `cpu_load_value` and `cpu_load_change` |
 | `core_load`                        | Display load & frequency per core                                                     |
 | `core_bars`                        | Change the display of `core_load` from numbers to vertical bars                       |
@@ -409,16 +406,16 @@ Parameters that are enabled by default have to be explicitly disabled. These (cu
 | `flip_efficiency`                  | Flips GPU efficiency to joules per frame                                              |
 | `hide_fsr_sharpness`               | Hides the sharpness info for the `fsr` option (only available in gamescope)           |
 | `histogram`                        | Change FPS graph to histogram                                                         |
-| `horizontal`                       | Display Mangohud in a horizontal position                                             |
+| `horizontal`                       | Display MinigoHUD in a horizontal position                                             |
 | `horizontal_stretch`               | Stretches the background to the screens width in `horizontal` mode                    |
-| `hud_compact`                      | Display compact version of MangoHud                                                   |
-| `hud_no_margin`                    | Remove margins around MangoHud                                                        |
+| `hud_compact`                      | Display compact version of MinigoHUD                                                   |
+| `hud_no_margin`                    | Remove margins around MinigoHUD                                                        |
 | `io_read`<br> `io_write`           | Show non-cached IO read/write, in MiB/s                                               |
 | `log_duration`                     | Set amount of time the logging will run for (in seconds)                              |
 | `log_interval`                     | Change the default log interval in milliseconds. Default is `0`                       |
 | `log_versioning`                   | Adds more headers and information such as versioning to the log. This format is not supported on flightlessmango.com (yet)    |
 | `media_player_format`              | Format media player metadata. Add extra text etc. Semi-colon breaks to new line. Defaults to `{title};{artist};{album}` |
-| `media_player_name`                | Force media player DBus service name without the `org.mpris.MediaPlayer2` part, like `spotify`, `vlc`, `audacious` or `cantata`. If none is set, MangoHud tries to switch between currently playing players |
+| `media_player_name`                | Force media player DBus service name without the `org.mpris.MediaPlayer2` part, like `spotify`, `vlc`, `audacious` or `cantata`. If none is set, MinigoHUD tries to switch between currently playing players |
 | `media_player`                     | Show media player metadata                                                            |
 | `no_display`                       | Hide the HUD by default                                                               |
 | `no_small_font`                    | Use primary font size for smaller text like units                                     |
@@ -429,10 +426,10 @@ Parameters that are enabled by default have to be explicitly disabled. These (cu
 | `permit_upload`                    | Allow uploading of logs to Flightlessmango.com                                        |
 | `picmip`                           | Mip-map LoD bias. Negative values will increase texture sharpness (and aliasing). Positive values will increase texture blurriness `-16`-`16` |
 | `position=`                        | Location of the HUD: `top-left` (default), `top-right`, `middle-left`, `middle-right`, `bottom-left`, `bottom-right`, `top-center`, `bottom-center` |
-| `preset=`                          | Comma separated list of one or more presets. Default is `-1,0,1,2,3,4`. Available presets:<br>`0` (No Hud)<br> `1` (FPS Only)<br> `2` (Horizontal)<br> `3` (Extended)<br> `4` (Detailed)<br>User defined presets can be created by using a [presets.conf](data/presets.conf) file in `~/.config/MangoHud/`.                      |
+| `preset=`                          | Comma separated list of one or more presets. Default is `-1,0,1,2,3,4`. Available presets:<br>`0` (No Hud)<br> `1` (FPS Only)<br> `2` (Horizontal)<br> `3` (Extended)<br> `4` (Detailed)<br>User defined presets can be created by using a [presets.conf](data/presets.conf) file in `~/.config/MinigoHUD/`.                      |
 | `procmem`<br>`procmem_shared`, `procmem_virt`| Displays process' memory usage: resident, shared and/or virtual. `procmem` (resident) also toggles others off if disabled |
 | `ram`<br>`vram`                    | Display system RAM/VRAM usage                                                         |
-| `read_cfg`                         | Add to MANGOHUD_CONFIG as first parameter to also load config file. Otherwise only `MANGOHUD_CONFIG` parameters are used |
+| `read_cfg`                         | Add to MinigoHUD_CONFIG as first parameter to also load config file. Otherwise only `MinigoHUD_CONFIG` parameters are used |
 | `reload_cfg=`                      | Change keybind for reloading the config. Default = `Shift_L+F4`                       |
 | `resolution`                       | Display the current resolution                                                        |
 | `retro`                            | Disable linear texture filtering. Makes textures look blocky                          |
@@ -444,18 +441,18 @@ Parameters that are enabled by default have to be explicitly disabled. These (cu
 | `text_outline`                     | Draw an outline around text for better readability. Enabled by default.               |
 | `text_outline_color=`              | Set the color of `text_outline`. Default = `000000`                                   |
 | `text_outline_thickness=`          | Set the thickness of `text_outline`. Default = `1.5`                                  |
-| `throttling_status`                | Show if GPU is throttling based on Power, current, temp or "other" (Only shows if throttling is currently happening). Currently disabled by default for Nvidia as it causes lag on 3000 series |
+| `throttling_status`                | Show if GPU is throttling based on Power, current, temp or "other" (Only shows if throttling is currently happening).
 | `throttling_status_graph`          | Same as `throttling_status` but displays throttling in the frametime graph and only power and temp throttling |
 | `time`<br>`time_format=%T`         | Display local time. See [std::put_time](https://en.cppreference.com/w/cpp/io/manip/put_time) for formatting help. NOTE: Sometimes apps may set `TZ` (timezone) environment variable to UTC/GMT |
 | `time_no_label`                    | Remove the label before time                                                          |
 | `toggle_fps_limit`                 | Cycle between FPS limits (needs at least two values set with `fps_limit`). Defaults to `Shift_L+F1`                                    |
 | `toggle_preset`                    | Cycle between Presets. Defaults to `Shift_R+F10`                                      |
 | `toggle_hud=`<br>`toggle_logging=` | Modifiable toggle hotkeys. Default are `Shift_R+F12` and `Shift_L+F2`, respectively   |
-| `toggle_hud_position`              | Toggle MangoHud position. Default is `R_Shift+F11`                                     |
+| `toggle_hud_position`              | Toggle MinigoHUD position. Default is `R_Shift+F11`                                     |
 | `trilinear`                        | Force trilinear filtering                                                             |
 | `upload_log`                       | Change keybind for uploading log                                                      |
 | `upload_logs`                      | Enables automatic uploads of logs to flightlessmango.com                              |
-| `version`                          | Show current MangoHud version                                                         |
+| `version`                          | Show current MinigoHUD version                                                         |
 | `vkbasalt`                         | Show if vkBasalt is on                                                                |
 | `vsync`<br> `gl_vsync`             | Set Vsync for OpenGL or Vulkan                                                        |
 | `vulkan_driver`                    | Display used Vulkan driver (radv/amdgpu-pro/amdvlk)                                   |
@@ -467,8 +464,8 @@ Parameters that are enabled by default have to be explicitly disabled. These (cu
 | `network`                          | Show network interfaces tx and rx kb/s. You can specify interface with `network=eth0` |
 | `fex_stats`                        | Show FEX-Emu statistics. Default = `status+apptype+hotthreads+jitload+sigbus+smc+softfloat` |
 
-Example: `MANGOHUD_CONFIG=cpu_temp,gpu_temp,position=top-right,height=500,font_size=32`
-Because comma is also used as option delimiter and needs to be escaped for values with a backslash, you can use `+` like `MANGOHUD_CONFIG=fps_limit=60+30+0` instead.
+Example: `MinigoHUD_CONFIG=cpu_temp,gpu_temp,position=top-right,height=500,font_size=32`
+Because comma is also used as option delimiter and needs to be escaped for values with a backslash, you can use `+` like `MinigoHUD_CONFIG=fps_limit=60+30+0` instead.
 
 *Note: Width and Height are set automatically based on the font_size, but can be overridden.*
 
@@ -506,7 +503,7 @@ Not all vulkan vsync options may be supported on your device, you can check what
 Options starting with "gl_*" are for OpenGL.
 
 - `gl_size_query = viewport` : Specify what to use for getting display size. Options are "viewport", "scissorbox" or disabled. Defaults to using glXQueryDrawable.
-- `gl_bind_framebuffer = 0..N` : (Re)bind given framebuffer before MangoHud gets drawn. Helps with Crusader Kings III.
+- `gl_bind_framebuffer = 0..N` : (Re)bind given framebuffer before MinigoHUD gets drawn. Helps with Crusader Kings III.
 - `gl_dont_flip = 1` : Don't swap origin if using GL_UPPER_LEFT. Helps with Ryujinx.
 
 ## FPS logging
@@ -527,7 +524,7 @@ Notes:
 ![Gif illustrating the log uploading process](assets/log_upload_example.gif)
 
 ### Local visualization: `mangoplot`
-`mangoplot` is a plotting script that is shipped with `MangoHud`: on a given folder, it takes each log file, makes a 1D heatmap of its framerates, then stacks the heats maps vertically to form a 2D graph for easy visual comparison between benchmarks.
+`mangoplot` is a plotting script that is shipped with `MinigoHUD`: on a given folder, it takes each log file, makes a 1D heatmap of its framerates, then stacks the heats maps vertically to form a 2D graph for easy visual comparison between benchmarks.
 
 Example output:
 
