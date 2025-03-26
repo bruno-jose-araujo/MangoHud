@@ -15,8 +15,6 @@ fi; \
 if [ ! -f /usr/bin/unzip ]; then apt-get update; apt-get -y install unzip; fi; \
 python3 ./get-pip.py; \
 pip3 install meson mako; \
-curl -LO http://mirrors.kernel.org/ubuntu/pool/main/n/nvidia-settings/libxnvctrl0_440.64-0ubuntu1_amd64.deb; \
-curl -LO http://mirrors.kernel.org/ubuntu/pool/main/n/nvidia-settings/libxnvctrl-dev_440.64-0ubuntu1_amd64.deb; \
 dpkg -i libxnvctrl0_440.64-0ubuntu1_amd64.deb libxnvctrl-dev_440.64-0ubuntu1_amd64.deb; \
 cd /; rm -fr /prep; \
 :

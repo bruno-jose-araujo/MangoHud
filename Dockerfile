@@ -11,7 +11,6 @@ RUN pacman -Syu --noconfirm base-devel \
     libx11 \
     xcb-util \
     python-mako \
-    nvidia-utils \
     dbus \
     wayland \
     cmake \

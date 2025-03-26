@@ -12,7 +12,6 @@
 #include <regex>
 #include <iostream>
 #include "amdgpu.h"
-#include "nvidia.h"
 #include "gpu_metrics_util.h"
 #include "gpu_fdinfo.h"
 
@@ -23,7 +22,6 @@ class GPU {
     public:
         gpu_metrics metrics;
         std::string drm_node;
-        std::unique_ptr<NVIDIA> nvidia = nullptr;
         std::unique_ptr<AMDGPU> amdgpu = nullptr;
         std::unique_ptr<GPU_fdinfo> fdinfo = nullptr;
         bool is_active = false;
@@ -32,9 +30,6 @@ class GPU {
 
         GPU(std::string drm_node, uint32_t vendor_id, uint32_t device_id, const char* pci_dev)
             : drm_node(drm_node), pci_dev(pci_dev), vendor_id(vendor_id), device_id(device_id) {
-                if (vendor_id == 0x10de)
-                    nvidia = std::make_unique<NVIDIA>(pci_dev);
-
                 if (vendor_id == 0x1002)
                     amdgpu = std::make_unique<AMDGPU>(pci_dev, device_id, vendor_id);
 
@@ -51,9 +46,6 @@ class GPU {
         }
 
         gpu_metrics get_metrics() {
-            if (nvidia)
-                this->metrics = nvidia->copy_metrics();
-
             if (amdgpu)
                 this->metrics = amdgpu->copy_metrics();
 
@@ -63,18 +55,12 @@ class GPU {
             return metrics;
         };
 
-        std::vector<int> nvidia_pids() {
 #ifdef HAVE_NVML
-            if (nvidia)
-                return nvidia->pids();
 #endif
             return std::vector<int>();
         }
 
         void pause() {
-            if (nvidia)
-                nvidia->pause();
-
             if (amdgpu)
                 amdgpu->pause();
 
@@ -83,9 +69,6 @@ class GPU {
         }
 
         void resume() {
-            if (nvidia)
-                nvidia->resume();
-
             if (amdgpu)
                 amdgpu->resume();
 
@@ -101,9 +84,6 @@ class GPU {
         }
 
         std::shared_ptr<Throttling> throttling() {
-            if (nvidia)
-                return nvidia->throttling;
-
             if (amdgpu)
                 return amdgpu->throttling;
 
@@ -202,10 +182,8 @@ class GPUS {
 
 extern std::unique_ptr<GPUS> gpus;
 
-void getNvidiaGpuInfo(const struct overlay_params& params);
 void getAmdGpuInfo(void);
 void getIntelGpuInfo();
-bool checkNvidia(const char *pci_dev);
 extern void nvapi_util();
 extern bool checkNVAPI();
 #endif //MANGOHUD_GPU_H

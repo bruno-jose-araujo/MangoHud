@@ -75,12 +75,6 @@ void device_update(const struct overlay_params& params){
                 device_found = true;
                 bitdo_count += 1;
             }
-            //CHECK NVIDIA SHIELD DEVICES
-            if (fileName.find("thunderstrike") != std::string::npos) {
-                list.push_back(p.path());
-                device_found = true;
-                shield_count += 1;
-            }
         }
 
 // Mice and Keyboards

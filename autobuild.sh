@@ -17,7 +17,7 @@ docker exec -it "$container_name" bash -c "ninja -C build install"
 #echo -e "\e[32m►Compile successfull\e[0m"
 
 if [ -f "/usr/local/bin/mangohud" ]; then
-    sudo rm /usr/local/bin/mangohud
+    sudo rm /usr/local/bin/mangohud<gi
 fi
 
 if [ -f "/usr/local/bin/mangoplot" ]; then

@@ -60,7 +60,6 @@ vklayer_files = files(
   'gpu.cpp',
   'blacklist.cpp',
   'file_utils.cpp',
-  'nvidia.cpp',
   'gpu_fdinfo.cpp',
   'amdgpu.cpp'
 )
@@ -70,7 +69,6 @@ if ['windows', 'mingw'].contains(host_machine.system())
   vklayer_files += files(
     'file_utils_win32.cpp',
     'cpu_win32.cpp',
-    'nvapi.cpp',
     'win/dxgi.cpp',
     'win/main.cpp',
     'win/kiero.cpp',
@@ -110,38 +108,6 @@ if is_unixy
     'gl/inject_egl.cpp',
   )
 
-  nvml_h_found = get_option('with_nvml') == 'enabled'
-  if get_option('with_nvml') == 'system'
-    nvml_h_found = cc.has_header('nvml.h')
-    if not nvml_h_found
-      error('nvml.h was not found. Disable with \'-Dwith_nvml=disabled\' if gpu stats by NVML are not needed.')
-    endif
-    pre_args += '-DUSE_SYSTEM_NVML'
-  endif
-
-  if nvml_h_found
-    pre_args += '-DHAVE_NVML'
-    vklayer_files += files(
-      'loaders/loader_nvml.cpp',
-    )
-  endif
-
-  if get_option('with_xnvctrl').enabled()
-
-    if not get_option('with_x11').enabled()
-      error('XNVCtrl also needs \'with_x11\'')
-    endif
-
-    xnvctrl_h_found = cc.has_header('NVCtrl/NVCtrl.h')
-    if not xnvctrl_h_found
-      error('NVCtrl.h was not found. Disable with \'-Dwith_xnvctrl=disabled\' if gpu stats by XNVCtrl are not needed.')
-    endif
-
-    pre_args += '-DHAVE_XNVCTRL'
-    vklayer_files += files(
-      'loaders/loader_nvctrl.cpp'
-    )
-  endif
 
   if get_option('with_x11').enabled()
     pre_args += '-DHAVE_X11'

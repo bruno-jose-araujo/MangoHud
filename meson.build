@@ -279,7 +279,6 @@ if get_option('tests').enabled()
       'src/cpu.cpp',
       'src/gpu.cpp',
       'src/gpu_fdinfo.cpp',
-      'src/nvidia.cpp',
       'src/mesa/util/os_time.c',
       'src/file_utils.cpp',
     ),

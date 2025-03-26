@@ -47,11 +47,6 @@ dependencies() {
         fi
         pip3 install 'meson>=0.54' mako
 
-        if [[ ! -f /usr/include/NVCtrl/NVCtrl.h ]]; then
-            curl -LO http://mirrors.kernel.org/ubuntu/pool/main/n/nvidia-settings/libxnvctrl0_440.64-0ubuntu1_amd64.deb
-            curl -LO http://mirrors.kernel.org/ubuntu/pool/main/n/nvidia-settings/libxnvctrl-dev_440.64-0ubuntu1_amd64.deb
-            dpkg -i libxnvctrl0_440.64-0ubuntu1_amd64.deb libxnvctrl-dev_440.64-0ubuntu1_amd64.deb
-        fi
 
         # preinstalled 7.10.xxxx
         #if [[ ! -f /usr/local/bin/glslangValidator ]]; then
